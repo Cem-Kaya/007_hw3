@@ -9,6 +9,7 @@ import torch
 import torchvision
 import cv2
 import base64
+
 # py -3.10 .\back_end.py # to run the server
 # py -3.10 -m pip freeze > requirements.txt # to create requirements.txt
 # py -3.10 -m pip install -r requirements.txt # to install requirements.txt 
@@ -26,8 +27,10 @@ def index():
 @app.route('/post_test', methods=['POST'], strict_slashes=False  )
 def test():
     myobj = {'img': request.form['img']  }
-    print (myobj )
-    image = base64.decodestring(json.dumps(data)['image'])
+    #print (myobj )
+    
+    image = base64.decodebytes(json.dumps(myobj)['image'])
+    
     print (image)
     print(myobj['img'] .dtype )
     return "test" #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
