@@ -29,6 +29,19 @@ def index():
 def test():
     file = request.files['image'] 
     file.save('tmp.jpg')
+    # Reading an image in default mode
+    src = cv2.imread('tmp.jpg')
+	
+	# Window name in which image is displayed
+    window_name = 'Image'
+	
+	# Using cv2.flip() method
+	# Use Flip code 0 to flip vertically
+    image = cv2.flip(src, 0)
+	
+	# Displaying the image
+    cv2.imshow(window_name, image)
+    cv2.waitKey(0)
        
     return "test" #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
 
