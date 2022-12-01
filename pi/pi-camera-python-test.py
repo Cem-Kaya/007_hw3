@@ -10,7 +10,7 @@ import base64
 from picamera2 import Picamera2, Preview
 import yaml
 
-with open("conf.yaml", "r") as stream:
+with open("conf.yml", "r") as stream:
     try:
         ips =yaml.safe_load(stream)
     except yaml.YAMLError as exc:
