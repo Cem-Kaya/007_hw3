@@ -32,8 +32,8 @@ time.sleep(2)
 while True:    
     jpeg_buffer = picam2.capture_buffer()
     data = {}
-    data['img'] = base64.encodebytes(jpeg_buffer).decode('utf-8')
-    
+    data['img'] = base64.encodebytes(jpeg_buffer.encode('utf-8'))
+    time.sleep(0.2)
     re.post("http://"+ip+":5000/post_test", data )
 
 
