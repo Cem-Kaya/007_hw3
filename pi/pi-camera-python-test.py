@@ -34,7 +34,7 @@ while True:
     data = {}
     data['img'] = base64.encodebytes(jpeg_buffer).decode('utf-8')
     time.sleep(0.2)
-    re.post("http://"+ip+":5000/post_test", data )
+    re.post("http://"+ip+":5000/post_test", data['img'] )
 
 
 picam2.close()
