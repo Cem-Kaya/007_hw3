@@ -10,6 +10,9 @@ import torchvision
 import cv2
 import numpy as np
 import base64
+import numpy as np
+from matplotlib import pyplot as plt
+import matplotlib.image as mpimg
 
 # py -3.10 .\back_end.py # to run the server
 # py -3.10 -m pip freeze > requirements.txt # to create requirements.txt
@@ -30,19 +33,22 @@ def test():
     file = request.files['image'] 
     file.save('tmp.jpg')
     # Reading an image in default mode
-    src = cv2.imread('tmp.jpg')
-	
+    #src = cv2.imread('tmp.jpg')
+   
 	# Window name in which image is displayed
-    window_name = 'Image'
+    #window_name = 'Image'
+    plt.ion()
+    #img = mpimg.imread('tmp.png')
+    imgplot = plt.imshow(img)
+    plt.show()
 	
 	# Using cv2.flip() method
 	# Use Flip code 0 to flip vertically
-    image = cv2.flip(src, 0)
-	
-	# Displaying the image
-    cv2.imshow(window_name, image)
-   
-       
+   # image = cv2.flip(src, 0)
+    #cv2.imshow(window_name, image)
+    #cv2.waitKey()
+
+    
     return "test" #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
 
 
@@ -59,7 +65,13 @@ if __name__ == '__main__':  #python interpreter assigns "__main__" to the file y
     imgs = ['https://ultralytics.com/images/zidane.jpg']  # batch of images
     yolo_model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)  
     results = yolo_model(imgs)
+    img = mpimg.imread('tmp.jpg')
+    plt.imshow(img)
+    plt.axis([-50,50,0,10000])
+    plt.ion()
+    plt.show()
     # Results
+    plt.draw()
     results.print()
     #results.show()  # or .show()
     app.run(debug=True , host="0.0.0.0")
