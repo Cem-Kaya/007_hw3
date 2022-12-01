@@ -18,7 +18,7 @@ with open("conf.yml", "r") as stream:
     
 print(ips)
 
-ip = "172.22.169.87"
+ip = "159.20.86.26"
 
 picam2 = Picamera2()
 

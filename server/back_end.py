@@ -48,4 +48,4 @@ if __name__ == '__main__':  #python interpreter assigns "__main__" to the file y
     # Results
     results.print()
     #results.show()  # or .show()
-    app.run(debug=True)
+    app.run(debug=True , host="0.0.0.0")
