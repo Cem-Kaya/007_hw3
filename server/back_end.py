@@ -27,16 +27,9 @@ def index():
 
 @app.route('/post_test', methods=['POST'], strict_slashes=False  )
 def test():
-    myobj = {'img': request.form['img']  }
-    #print (myobj )
-    
-    #image = base64.decodebytes(json.dumps(myobj)['image'].encode('utf-8'))
-    
-    jpg_as_np = np.frombuffer(json.dumps(myobj)['img'], dtype=np.uint8)
-    img = cv2.imdecode(jpg_as_np, flags=1)
-    cv2.imwrite('.0/.jpg',img)
-    print(image)
-    print(myobj['img'].dtype )
+    file = request.files['image'] 
+    file.save('tmp.jpg')
+       
     return "test" #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
 
 
