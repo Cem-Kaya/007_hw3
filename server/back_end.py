@@ -41,7 +41,7 @@ def test():
 	
 	# Displaying the image
     cv2.imshow(window_name, image)
-    cv2.waitKey(0)
+   
        
     return "test" #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
 
