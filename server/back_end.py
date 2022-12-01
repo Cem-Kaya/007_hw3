@@ -29,7 +29,7 @@ def test():
     myobj = {'img': request.form['img']  }
     #print (myobj )
     
-    image = base64.decodebytes(json.dumps(myobj)['image'])
+    image = base64.decodebytes(json.dumps(myobj)['image'].encode('utf-8'))
     
     print (image)
     print(myobj['img'] .dtype )
