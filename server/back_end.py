@@ -8,6 +8,7 @@ from flask import Flask, render_template, request, send_from_directory, send_fil
 import torch 
 import torchvision
 import cv2
+import numpy as np
 import base64
 
 # py -3.10 .\back_end.py # to run the server
@@ -29,11 +30,15 @@ def test():
     myobj = {'img': request.form['img']  }
     #print (myobj )
     
-    image = base64.decodebytes(json.dumps(myobj)['image'].encode('utf-8'))
+    #image = base64.decodebytes(json.dumps(myobj)['image'].encode('utf-8'))
     
-    print (image)
-    print(myobj['img'] .dtype )
+    jpg_as_np = np.frombuffer(json.dumps(myobj)['img'], dtype=np.uint8)
+    img = cv2.imdecode(jpg_as_np, flags=1)
+    cv2.imwrite('.0/.jpg',img)
+    print(image)
+    print(myobj['img'].dtype )
     return "test" #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
+
 
 
 
