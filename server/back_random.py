@@ -18,7 +18,13 @@ import matplotlib.image as mpimg
 # py -3.10 -m pip freeze > requirements.txt # to create requirements.txt
 # py -3.10 -m pip install -r requirements.txt # to install requirements.txt 
 
-
+def results_parser(results):
+  s = ""
+  if results.pred[0].shape[0]:
+    for c in results.pred[0][:, -1].unique():
+      n = (results.pred[0][:, -1] == c).sum()  # detections per class
+      s += f"{n} {results.names[int(c)]}{'s' * (n > 1)}, "  # add to string
+  return s
 app = Flask(__name__)
 CORS(app)
 
@@ -52,14 +58,25 @@ def test():
     
     
     results = yolo_model(img)
+    result=results_parser(results)
+    result=result.split(" ")
     #results.print()
-    print(results)
-    #is_one=str(results).find("person")
-    """
-    if(is_one==-1):
-        is_more=str(results).find("persons")
     
-    """
+    
+    is_exists_human=next((i for i, x in enumerate(result) if( x=="person," or x=="persons,")), None)
+    number_of_person=0
+
+    #find("person")
+    print("resuls ",result)
+  
+    if(is_exists_human!=None):
+       number_of_person=int(result[is_exists_human-1])
+
+        
+        
+    print(number_of_person)
+         
+    
     results.show() 
 	# Using cv2.flip() method
 	# Use Flip code 0 to flip vertically
@@ -68,7 +85,9 @@ def test():
     #cv2.waitKey()
     img.save(this_img_name)
     #resmi byte cevirip at
-    return "test" #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
+    byte_image=bytearray(img)
+    
+    return byte_image #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
 
 
 
@@ -84,8 +103,7 @@ if __name__ == '__main__':  #python interpreter assigns "__main__" to the file y
     imgs = ['https://ultralytics.com/images/zidane.jpg']  # batch of images
     picture_index=0
     print("sssssssssssssssssssjkddms")
-    img = mpimg.imread('tmp.jpg')
-    print(img)
+    #img = mpimg.imread('tmp.jpg')
     #plt2.axis([-50,50,0,10000])
  
    

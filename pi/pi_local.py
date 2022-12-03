@@ -33,9 +33,14 @@ while True:
     #picam2.capture_file("tmp.jpg")
     time.sleep(2) 
     try:    
-        print( re.post("http://"+ip+":5000/post_test", files={'image': open('doritos_man.jpg', 'rb')}) )    
-    except:
-        print("Network Error") 
+        print( re.post("http://"+ip+":5000/post_test", files={'image': open('odin_chan_cat_person.jpg', 'rb')}) ) 
+        time.sleep(2) 
+        print( re.post("http://"+ip+":5000/post_test", files={'image': open('doritos_man.jpg', 'rb')}) )   
+        time.sleep(2)  
+        print( re.post("http://"+ip+":5000/post_test", files={'image': open('tmp.jpg', 'rb')}) )       
+    except Exception as e:
+        print("Network Error: ",e) 
+        
     
 
 
