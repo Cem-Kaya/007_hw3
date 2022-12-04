@@ -39,17 +39,43 @@ def index():
 @app.route('/end_point_1a', methods=['POST'], strict_slashes=False  )
 def end_point_1a():
     global picture_index
-    
-    file = request.files['image'] 
+    file = request.files['image']
+    picture_index=picture_index+1
+
     this_img_name= 'pics/tmp'+str(picture_index)+'.jpg'
     file.save(this_img_name)
-    picture_index=picture_index+1
+   
+    img = mpimg.imread(this_img_name)  
+    res = yolo_model(img)
+    
+    #results.save()
+    
+    
+    results = res.pandas().xyxy[0].to_dict(orient="records")
+    if len(res) == 0:
+        cv2.imwrite(this_img_name, img)
+    else:
+        for result in results:
+            print(result['class'])
+            con = result['confidence']
+            cs = result['class']
+            x1 = int(result['xmin'])
+            y1 = int(result['ymin'])
+            x2 = int(result['xmax'])
+            y2 = int(result['ymax'])
+            imagee = cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 50 )
+            cv2.imwrite(this_img_name, img)
+    
+
+    print("type", type(results))
+    #results.save(this_img_name)
     # Reading an image in default mode
     #src = cv2.imread('tmp.jpg')
-	# Window name in which image is displayed
+	  #Window name in which image is displayed
     #window_name = 'Image'
     plt.ion()
     #img = mpimg.imread('tmp.png')
+    img = mpimg.imread(this_img_name)  
     imgplot = plt.imshow(img)
     plt.show()
     
@@ -61,7 +87,7 @@ def end_point_1a():
     #byte_image=bytearray(img)
    # x=codecs.img.encode()
     #print("x is",type(x))
-  
+    
     return send_file(this_img_name) #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
 
 

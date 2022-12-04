@@ -98,10 +98,10 @@ while True:
         with open(this_img_name, 'wb') as f:
             f.write(returned_img.content)
         picture_index+=1
-        print( re.post("http://"+ip+":5000/end_point_1b", files={'image': open('tmp.jpg', 'rb')}) ) 
-        print( re.post("http://"+ip+":5000/end_point_2", json={'class': class_ids_string}) )
-        print( re.post("http://"+ip+":5000/end_point_2", json={'class': id2}) )
-        print( re.post("http://"+ip+":5000/end_point_2", json={'class': id3}) )
+        #print( re.post("http://"+ip+":5000/end_point_1b", files={'image': open('tmp.jpg', 'rb')}) ) 
+        #print( re.post("http://"+ip+":5000/end_point_2", json={'class': class_ids_string}) )
+        #print( re.post("http://"+ip+":5000/end_point_2", json={'class': id2}) )
+        #print( re.post("http://"+ip+":5000/end_point_2", json={'class': id3}) )
         """t_ids = class_ids.tostring()
         t_scores=scores.tostring()
         t_bboxes=bboxes.tostring()
