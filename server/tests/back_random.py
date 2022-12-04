@@ -12,6 +12,10 @@ import numpy as np
 import base64
 from matplotlib import pyplot as plt2
 
+# Program for converting bytes to string using decode()
+ 
+# import required module
+import codecs
 import matplotlib.image as mpimg
 
 # py -3.10 .\back_end.py # to run the server
@@ -85,9 +89,10 @@ def test():
     #cv2.waitKey()
     img.save(this_img_name)
     #resmi byte cevirip at
-    byte_image=bytearray(img)
-    
-    return byte_image #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
+    #byte_image=bytearray(img)
+    x=codecs.img.encode()
+    print("x is",type(x))
+    return "x" #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
 
 
 

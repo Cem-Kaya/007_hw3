@@ -1,8 +1,10 @@
 # Authored by Cem Kaya & Emre can eski
 import threading
 import json
+import codecs
 from time import strptime
 import requests as req
+from flask import send_file
 from flask_cors import CORS
 from flask import Flask, render_template, request, send_from_directory, send_file
 import torch 
@@ -44,18 +46,36 @@ def end_point_1a():
     picture_index=picture_index+1
     # Reading an image in default mode
     #src = cv2.imread('tmp.jpg')
-    picture_index=0
 	# Window name in which image is displayed
     #window_name = 'Image'
     plt.ion()
     #img = mpimg.imread('tmp.png')
     imgplot = plt.imshow(img)
     plt.show()
+    
+	# Using cv2.flip() method
+	# Use Flip code 0 to flip vertically
+   # image = cv2.flip(src, 0)
+    #cv2.imshow(window_name, image)
+    #cv2.waitKey()
+    #byte_image=bytearray(img)
+   # x=codecs.img.encode()
+    #print("x is",type(x))
+  
+    return send_file(this_img_name) #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
+
+
+
+@app.route('/end_point_1b', methods=['POST'], strict_slashes=False  )
+def tesend_point_1bt():
+    file = request.files['image']
+    img = mpimg.imread(file) 
+    results = yolo_model(img)
     result=results_parser(results)
     result=result.split(" ")
     is_exists_human=next((i for i, x in enumerate(result) if( x=="person," or x=="persons,")), None)
     number_of_person=0
-
+    
     #find("person")
     print("resuls ",result)
     
@@ -64,28 +84,37 @@ def end_point_1a():
 
         
         
-    print(number_of_person)
-	# Using cv2.flip() method
-	# Use Flip code 0 to flip vertically
-   # image = cv2.flip(src, 0)
-    #cv2.imshow(window_name, image)
-    #cv2.waitKey()
-    byte_image=bytearray(img)
-    
-    return bytearray #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
-
-
-
-@app.route('/end_point_1b', methods=['POST'], strict_slashes=False  )
-def tesend_point_1bt():
-    
-    return "test" #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
+    print("numbers is: ",number_of_person)
+    return str(number_of_person) #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
 
 # do class parsing here 
 @app.route('/end_point_2', methods=['POST'], strict_slashes=False  )
 def end_point_2():
+    class_id_str = request.json['class']
     
-    return "test" #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
+    #print("class :", class_id, scores, bbox)
+    print("sssss")
+    if(class_id_str=="none"):
+      print("number is zero")
+      return "0"
+    print("xxx")
+    class_ids= class_id_str.split(',')#check right split !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  
+    number_of_person=0
+    for class_id in class_ids:
+      #(x, y, w, h) = bbox
+      #cv2.rectangle(frame, (x, y), (x + w, y + h), (200,0,50), 3)
+      class_name = classes[int(class_id)]
+      if(class_name =="person"):
+          number_of_person+=1
+    print("number of",number_of_person)
+      #cv2.putText(frame, class_name, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 3, (200,0,50), 2)
+  
+    
+  
+    
+    
+    return str(number_of_person) #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
 
 
 
@@ -94,6 +123,14 @@ def end_point_2():
 
 #################################################
 if __name__ == '__main__':  #python interpreter assigns "__main__" to the file you run
+    classes = []
+    picture_index=0
+    with open("classes.txt", "r") as file_object:
+      for class_name in file_object.readlines():
+        #print(class_name)
+        class_name = class_name.strip()  # satır arası boşluklar için
+
+        classes.append(class_name)
     imgs = ['https://ultralytics.com/images/zidane.jpg']  # batch of images
     yolo_model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)  
     results = yolo_model(imgs)

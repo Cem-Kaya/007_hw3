@@ -29,7 +29,7 @@ with open("dnn_model/classes.txt", "r") as file_object:
 
 
 # Initialize camera
-frame = cv2.imread('b.jpg')
+frame = cv2.imread('tmp.jpg')
 
 
 
@@ -39,7 +39,7 @@ frame = cv2.imread('b.jpg')
 
     # Object Detection
 (class_ids, scores, bboxes) = model.detect(frame, confThreshold=0.3, nmsThreshold=.4)
-print(class_ids)
+print("class id : ", class_ids)
 number_of_person=0
 print("class_ids: ", type(class_ids), " scores: ", type(scores), "bboxes: ", type(bboxes) )
 for class_id, score, bbox in zip(class_ids, scores, bboxes):

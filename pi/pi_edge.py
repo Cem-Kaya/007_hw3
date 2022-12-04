@@ -14,7 +14,15 @@ import cv2
 import matplotlib.image as mpimg
 import time
 from PIL import Image
+def tiny(img):
+    frame = cv2.imread(img)
+    (class_ids, scores, bboxes) = model.detect(frame, confThreshold=0.3, nmsThreshold=.4)
+    
 
+    class_ids_strin=','.join(str(x) for x in class_ids)
+    if(class_ids_strin==""):
+        return "none"
+    return class_ids_strin
 
 # Opencv DNN
 net = cv2.dnn.readNet("dnn_model/yolov4-tiny.weights", "dnn_model/yolov4-tiny.cfg")
@@ -35,29 +43,35 @@ picam2.configure(preview_config)
 picam2.start_preview(Preview.QTGL)
 
 picam2.start()
+picture_index=0
 time.sleep(2)
 while True:    
     picam2.capture_file("tmp.jpg")
-    time.sleep(0.2) 
-    frame = cv2.imread('tmp.jpg')
+    time.sleep(5) 
+    id2=tiny("tmp.jpg")
     #do tiny yolo py
 
-    print(np.fromstring(ts))
-    (class_ids, scores, bboxes) = model.detect(frame, confThreshold=0.3, nmsThreshold=.4)
-
-    t_ids = class_ids.tostring()
-    t_scores=scores.tostring()
-    t_bboxes=bboxes.tostring()
-    class_ids_string=np.fromstring(t_ids)
-    scores_string=np.fromstring(t_scores)
-    bboxes_string=np.fromstring(t_bboxes)
-    print("is string :  ",type(class_ids_string))
+    
+    
 
     try:    
-        print( re.post("http://"+ip+":5000/post_test", files={'image': open('tmp.jpg', 'rb')}) )    
-        print( re.post("http://"+ip+":5000/post_test", files={'image': open('tmp.jpg', 'rb')}) )   
-    except:
-        print("Network Error") 
+
+        time.sleep(2)   
+        returned_img= re.post("http://"+ip+":5000/end_point_1a", files={'image': open('tmp.jpg', 'rb')}) 
+        this_img_name= 'pics/tmps'+str(picture_index)+'.jpg'
+        with open(this_img_name, 'wb') as f:
+            f.write(returned_img.content)
+        picture_index+=1
+        rimg = base64.b64decode(returned_img.text)
+        this_img_name= 'pics/tmp'+str(picture_index)+'.jpg'
+        rimg.save(this_img_name)
+        picture_index=picture_index+1
+        print( re.post("http://"+ip+":5000/end_point_1b", files={'image': open('tmp.jpg', 'rb')}) ) 
+        print( re.post("http://"+ip+":5000/end_point_2", json={'class': id2}) )
+
+           
+    except Exception as e :
+        print("Network Error",e) 
     
 
 
