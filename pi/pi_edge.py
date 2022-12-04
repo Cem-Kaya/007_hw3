@@ -62,9 +62,9 @@ while True:
         with open(this_img_name, 'wb') as f:
             f.write(returned_img.content)
         picture_index+=1
-        rimg = base64.b64decode(returned_img.text)
+        """rimg = base64.b64decode(returned_img.text)
         this_img_name= 'pics/tmp'+str(picture_index)+'.jpg'
-        rimg.save(this_img_name)
+        rimg.save(this_img_name)"""
         picture_index=picture_index+1
         print( re.post("http://"+ip+":5000/end_point_1b", files={'image': open('tmp.jpg', 'rb')}) ) 
         print( re.post("http://"+ip+":5000/end_point_2", json={'class': id2}) )
