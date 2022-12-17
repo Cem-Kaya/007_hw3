@@ -154,7 +154,7 @@ if __name__ == '__main__':  #python interpreter assigns "__main__" to the file y
     with open("classes.txt", "r") as file_object:
       for class_name in file_object.readlines():
         #print(class_name)
-        class_name = class_name.strip()  # satır arası boşluklar için
+        class_name = class_name.strip()  # satır arası  için
 
         classes.append(class_name)
     imgs = ['https://ultralytics.com/images/zidane.jpg']  # batch of images
@@ -169,4 +169,4 @@ if __name__ == '__main__':  #python interpreter assigns "__main__" to the file y
     plt.draw()
     results.print()
     #results.show()  # or .show()
-    app.run(debug=True , host="0.0.0.0")
+    app.run(debug=False , host="172.22.5.242")
