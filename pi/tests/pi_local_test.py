@@ -47,7 +47,7 @@ model.setInputParams(size=(320, 320), scale=1/255)
     
 
 
-ip = "172.22.5.242"
+ip = "127.0.0.1"
 
 #picam2 = Picamera2()
 
@@ -77,10 +77,10 @@ while True:
     print("id3", id3=="none",id3)
 
     try:    
-        print( re.post("http://"+ip+":5000/end_point_3", files={'sound': open('sound.wav', 'rb')}) ) 
+        print( re.post("http://"+ip+":5000/end_point_1b", files={'image': open('odin_chan_cat_person.jpg', 'rb')}) ) 
         time.sleep(2) 
-        #print( re.post("http://"+ip+":5000/end_point_1b", files={'image': open('doritos_man.jpg', 'rb')}) )     
-        #returned_img= re.post("http://"+ip+":5000/end_point_1a", files={'image': open('tmp.jpg', 'rb')}) 
+        print( re.post("http://"+ip+":5000/end_point_1b", files={'image': open('doritos_man.jpg', 'rb')}) )     
+        returned_img= re.post("http://"+ip+":5000/end_point_1a", files={'image': open('tmp.jpg', 'rb')}) 
         """  file = open('encode.bin', 'rb')
         byte = file.read()
         file.close()
@@ -94,7 +94,7 @@ while True:
         print(type(returned_img.text),returned_img)
         
         #imgdata = base64.b64decode(returned_img.text)
-        this_img_name= 'pics/tmps'+'.jpg'
+        this_img_name= 'pics/tmps'+str(picture_index)+'.jpg'
         with open(this_img_name, 'wb') as f:
             f.write(returned_img.content)
         picture_index+=1

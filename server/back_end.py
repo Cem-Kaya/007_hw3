@@ -134,13 +134,21 @@ def end_point_2():
       if(class_name =="person"):
           number_of_person+=1
     print("number of",number_of_person)
-      #cv2.putText(frame, class_name, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 3, (200,0,50), 2)
-  
-    
-  
-    
-    
     return str(number_of_person) #render_template("success.html", data= req.post(data = json.dumps(myobj)).text )    
+      #cv2.putText(frame, class_name, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 3, (200,0,50), 2)
+@app.route('/end_point_3', methods=['POST'], strict_slashes=False  )
+def end_point_3():
+  file = request.files['sound']
+  this_sound_name= 'sound'+'.wav'
+  file.save(this_sound_name)
+  
+  print("accepted")
+  return "accepted"
+  
+  
+    
+    
+    
 
 
 
